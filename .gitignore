@@ -108,3 +108,7 @@ xcuserdata
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.toptal.com/developers/gitignore/api/swift,swiftpackagemanager,swiftpm,xcode
+Weather-Data/Other/GoogleService-Info.plist
+Weather_Data/.DS_Store
+Weather_Data/Source/.DS_Store
+Weather-Data/Other/GoogleService-Info.plist
