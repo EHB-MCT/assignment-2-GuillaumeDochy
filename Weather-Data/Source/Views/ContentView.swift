@@ -9,7 +9,6 @@ import SwiftUI
 import CoreLocationUI
 
 struct ContentView: View {
-    @StateObject private var locationManager = LocationManager()
     @StateObject private var viewModel = ContentViewModel()
     @State private var city: String = "London"
 
