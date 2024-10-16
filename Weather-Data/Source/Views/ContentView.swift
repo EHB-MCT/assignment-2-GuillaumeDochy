@@ -6,23 +6,21 @@
 //
 
 import SwiftUI
+import CoreLocationUI
 
 struct ContentView: View {
     @StateObject private var locationManager = LocationManager()
     @StateObject private var viewModel = ContentViewModel()
-    @State private var city: String = "London"
+    @State private var city: String = ""
 
     var body: some View {
         VStack {
-            if locationManager.authorizationStatus == .notDetermined {
-                Button("Allow Location Access") {
-                    locationManager.requestLocationAccess()
-                }
-                .padding()
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(8)
+            LocationButton(.shareCurrentLocation){
+                locationManager.requestLocationAccess()
             }
+            .cornerRadius(30)
+            .symbolVariant(.fill)
+            .foregroundColor(.white)
             
             if let location = locationManager.userLocation {
                 Text("User's location: \(location.latitude), \(location.longitude)")
@@ -32,13 +30,17 @@ struct ContentView: View {
                     .padding()
             }
             
+            Text("Enter a city name to get weather data:")
+            
             TextField("Enter city name", text: $city)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
 
             Button("Get Weather") {
                 if let location = locationManager.userLocation {
-                    viewModel.fetchWeather(latitude: location.latitude, longitude: location.longitude)
+                    Task{
+                        await viewModel.fetchWeatherLocal(latitude: location.latitude, longitude: location.longitude)
+                    }
                 } else {
                     viewModel.fetchWeather(for: city)
                 }

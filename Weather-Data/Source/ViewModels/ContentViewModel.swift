@@ -21,11 +21,12 @@ class ContentViewModel: ObservableObject {
         }
     }
 
-    func fetchWeather(latitude: Double, longitude: Double) {
-        weatherService.fetchWeather(latitude: latitude, longitude: longitude) { [weak self] weatherResponse in
-            DispatchQueue.main.async {
-                self?.weather = weatherResponse
-            }
+    func fetchWeatherLocal(latitude: Double, longitude: Double) async {
+        do {
+            weather = try await weatherService.getCurrentLocation(latitude: latitude, longitude: longitude)
+        } catch {
+            print("Error getting weather: \(error)")
         }
     }
 }
+

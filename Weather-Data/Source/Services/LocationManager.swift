@@ -5,43 +5,30 @@
 //  Created by Guillaume Dochy on 14/10/2024.
 //
 
-import SwiftUI
 import CoreLocation
-import Combine
+import Foundation
 
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
-    private var locationManager = CLLocationManager()
+    let locationManager = CLLocationManager()
     
     @Published var userLocation: CLLocationCoordinate2D?
-    @Published var authorizationStatus: CLAuthorizationStatus?
+    @Published var isLoading = false
     
     override init() {
         super.init()
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
     }
     
     func requestLocationAccess() {
-            locationManager.requestWhenInUseAuthorization()
-            locationManager.startUpdatingLocation()
+        isLoading = true
+        locationManager.requestLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            DispatchQueue.main.async {
-                self.userLocation = location.coordinate
-                print("User's location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
-            }
-        }
+        userLocation = locations.first?.coordinate
+        isLoading = false
     }
-    
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-            DispatchQueue.main.async {
-                self.authorizationStatus = manager.authorizationStatus
-            }
-        }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Failed to get user location: \(error.localizedDescription)")
