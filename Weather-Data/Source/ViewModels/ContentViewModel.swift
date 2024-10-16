@@ -10,23 +10,15 @@ import Combine
 
 class ContentViewModel: ObservableObject {
     @Published var weather: WeatherResponse?
-    
     private var weatherService = WeatherService()
-
+    private var cancellables = Set<AnyCancellable>()
+    
     func fetchWeather(for city: String) {
-        weatherService.fetchWeather(for: city) { [weak self] weatherResponse in
-            DispatchQueue.main.async {
-                self?.weather = weatherResponse
-            }
+            weatherService.fetchWeather(for: city)
+                .sink { [weak self] weatherResponse in
+                    self?.weather = weatherResponse
+                }
+                .store(in: &cancellables)
         }
-    }
-
-    func fetchWeatherLocal(latitude: Double, longitude: Double) async {
-        do {
-            weather = try await weatherService.getCurrentLocation(latitude: latitude, longitude: longitude)
-        } catch {
-            print("Error getting weather: \(error)")
-        }
-    }
 }
 

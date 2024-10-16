@@ -11,37 +11,19 @@ import CoreLocationUI
 struct ContentView: View {
     @StateObject private var locationManager = LocationManager()
     @StateObject private var viewModel = ContentViewModel()
-    @State private var city: String = ""
+    @State private var city: String = "London"
 
     var body: some View {
         VStack {
-            LocationButton(.shareCurrentLocation){
-                locationManager.requestLocationAccess()
-            }
-            .cornerRadius(30)
-            .symbolVariant(.fill)
-            .foregroundColor(.white)
-            
-            if let location = locationManager.userLocation {
-                Text("User's location: \(location.latitude), \(location.longitude)")
-                    .padding()
-            } else {
-                Text("Fetching location...")
-                    .padding()
-            }
-            
-            Text("Enter a city name to get weather data:")
             
             TextField("Enter city name", text: $city)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
 
             Button("Get Weather") {
-                if let location = locationManager.userLocation {
-                    Task{
-                        await viewModel.fetchWeatherLocal(latitude: location.latitude, longitude: location.longitude)
-                    }
-                } else {
+                if city.isEmpty {
+                    print("Input missing")
+                } else if city.isEmpty == false {
                     viewModel.fetchWeather(for: city)
                 }
             }
