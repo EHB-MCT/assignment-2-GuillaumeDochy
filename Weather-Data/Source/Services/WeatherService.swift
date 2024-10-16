@@ -7,9 +7,8 @@
 
 import Foundation
 
-import Foundation
-
 class WeatherService {
+    
     func logUserUsage(city: String) {
         let currentDate = Date()
         let dateFormatter = DateFormatter()
@@ -20,13 +19,14 @@ class WeatherService {
     }
     
     func fetchWeather(for city: String, completion: @escaping (WeatherResponse?) -> Void) {
-        logUserUsage(city: city)  
+        logUserUsage(city: city)
         
         let apiKey = "dummy"
         let urlString = "https://api.openweathermap.org/data/2.5/weather?q=\(city)&appid=\(apiKey)&units=metric"
         
         guard let url = URL(string: urlString) else {
             print("Invalid URL")
+            completion(nil)
             return
         }
         
@@ -38,9 +38,35 @@ class WeatherService {
             }
             
             let weatherResponse = try? JSONDecoder().decode(WeatherResponse.self, from: data)
+            
             DispatchQueue.main.async {
                 completion(weatherResponse)
             }
         }.resume()
+    }
+    
+    func fetchWeather(latitude: Double, longitude: Double, completion: @escaping (WeatherResponse?) -> Void) {
+        let apiKey = "dummy"
+        let urlString = "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)&units=metric"
+        
+        guard let url = URL(string: urlString) else {
+            print("Invalid URL")
+            completion(nil)
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            guard let data = data, error == nil else {
+                print("No data or error: \(String(describing: error))")
+                completion(nil)
+                return
+            }
+            
+            let weatherResponse = try? JSONDecoder().decode(WeatherResponse.self, from: data)
+            
+            DispatchQueue.main.async {
+                completion(weatherResponse)
+            }
+        }.resume() 
     }
 }
