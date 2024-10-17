@@ -46,6 +46,7 @@ struct MainView: View {
                 .navigationDestination(isPresented: $showWeatherDetail) {
                     WeatherDetailView(
                         weather: viewModel.weather ?? WeatherResponse(
+                            name: city, 
                             main: WeatherResponse.Main(temp: 0, humidity: 0, pressure: 0),
                             weather: [WeatherResponse.Weather(description: "Unknown")],
                             wind: WeatherResponse.Wind(speed: 0),

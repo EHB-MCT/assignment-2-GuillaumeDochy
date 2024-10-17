@@ -5,25 +5,24 @@
 //  Created by Guillaume Dochy on 14/10/2024.
 //
 
-import Foundation
-
-struct WeatherResponse: Decodable, Equatable {
+struct WeatherResponse: Codable, Equatable {
+    let name: String
     let main: Main
     let weather: [Weather]
     let wind: Wind
     let timezone: Int
-
-    struct Main: Decodable, Equatable {
+    
+    struct Main: Codable, Equatable {
         let temp: Double
-        let humidity: Int
-        let pressure: Int
+        let humidity: Double
+        let pressure: Double
     }
-
-    struct Weather: Decodable, Equatable {
+    
+    struct Weather: Codable, Equatable {
         let description: String
     }
-
-    struct Wind: Decodable, Equatable {
+    
+    struct Wind: Codable, Equatable {
         let speed: Double
     }
 }
