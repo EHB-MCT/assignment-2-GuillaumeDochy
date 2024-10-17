@@ -10,13 +10,20 @@ import Foundation
 struct WeatherResponse: Decodable, Equatable {
     let main: Main
     let weather: [Weather]
-    
-}
+    let wind: Wind
+    let timezone: Int
 
-struct Main: Decodable, Equatable {
-    let temp: Double
-}
+    struct Main: Decodable, Equatable {
+        let temp: Double
+        let humidity: Int
+        let pressure: Int
+    }
 
-struct Weather: Decodable, Equatable {
-    let description: String
+    struct Weather: Decodable, Equatable {
+        let description: String
+    }
+
+    struct Wind: Decodable, Equatable {
+        let speed: Double
+    }
 }
