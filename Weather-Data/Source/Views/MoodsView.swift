@@ -8,10 +8,21 @@
 import SwiftUI
 
 struct MoodsView: View {
+    @StateObject private var moodsViewModel = MoodsViewModel()
+    @State private var calendarViewModel: CalendarViewModel?
+    
     var body: some View {
-        Text("Mood Data")
-            .font(.largeTitle)
-            .padding()
+        VStack {
+            if let calendarViewModel = calendarViewModel {
+                CalendarView(viewModel: calendarViewModel)
+            } else {
+                Text("Loading...")
+            }
+        }
+        .onAppear {
+            moodsViewModel.fetchMoodEntries()
+            calendarViewModel = CalendarViewModel(moodsViewModel: moodsViewModel)
+        }
     }
 }
 
