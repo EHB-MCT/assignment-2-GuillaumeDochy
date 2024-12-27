@@ -7,8 +7,12 @@
 
 import Foundation
 
-/// Represents a mood entry with a date and mood type.
+/// Model representing a single mood entry.
+/// Each entry consists of a date and an associated mood type.
 struct MoodEntry {
+    /// The date when the mood entry was recorded.
     var date: Date
+    
+    /// The type of mood associated with the entry, represented by a `MoodColor`.
     var mood: MoodColor
 }
