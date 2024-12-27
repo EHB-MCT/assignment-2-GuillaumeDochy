@@ -7,9 +7,15 @@
 
 import Foundation
 
-/// Represents a frustration entry with a topic, description and timestamp.
+/// Model representing a single frustration entry.
+/// Each entry includes a topic, a description, and a timestamp.
 struct Frustration {
+    /// The topic associated with the frustration.
     var topic: String
+    
+    /// A detailed description of the frustration.
     var description: String
+    
+    /// The date and time when the frustration was recorded.
     var timestamp: Date
 }

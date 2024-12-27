@@ -7,8 +7,9 @@
 
 import Foundation
 
-/// Decodable structure representing the response returned from the Google Custom Search API.
-/// Contains an array of `GoogleSearchItem` which represent the search results.
+/// A decodable model representing the response from the Google Custom Search API.
+/// The response contains a collection of search result items.
 struct GoogleSearchResponse: Decodable {
-    let items: [GoogleSearchItem]   
+    /// An array of search result items returned by the API.
+    let items: [GoogleSearchItem]
 }
