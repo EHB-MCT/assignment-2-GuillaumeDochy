@@ -5,3 +5,5 @@ Use ViewModels to keep the views lightweight and focused on rendering. They hand
 Make sur to import "Combine" and "Foundation".
 
 Use upper CamelCase to name the files according to their use (name of the View they are linked to/ used for + "Model"). In case a contribution requires multiple ViewModels/ Views, put these in a subfolder named after the use case. Also, use upper CamelCase to name the folder.
+
+In case multiple ViewModels are created for a single purpose, please put them together in a subfolder.
